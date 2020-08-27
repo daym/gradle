@@ -93,12 +93,13 @@ class CompositeBuildOperationsIntegrationTest extends AbstractCompositeBuildInte
 
         def configureOps = operations.all(ConfigureBuildBuildOperationType)
         configureOps.size() == 2
-        configureOps[0].displayName == "Configure build"
-        configureOps[0].details.buildPath == ":"
-        configureOps[0].parentId == root.id
-        configureOps[1].displayName == "Configure build (:${buildName})"
-        configureOps[1].details.buildPath == ":${buildName}"
-        configureOps[1].parentId == configureOps[0].id
+        configureOps[0].displayName == "Configure build (:${buildName})"
+        configureOps[0].details.buildPath == ":${buildName}"
+        configureOps[0].parentId == operations.all(/Preparing builds/)[0].id
+        configureOps[1].displayName == "Configure build"
+        configureOps[1].details.buildPath == ":"
+        configureOps[1].parentId == root.id
+
 
         def taskGraphOps = operations.all(CalculateTaskGraphBuildOperationType)
         taskGraphOps.size() == 2
@@ -163,12 +164,13 @@ class CompositeBuildOperationsIntegrationTest extends AbstractCompositeBuildInte
 
         def configureOps = operations.all(ConfigureBuildBuildOperationType)
         configureOps.size() == 2
-        configureOps[0].displayName == "Configure build"
-        configureOps[0].details.buildPath == ":"
-        configureOps[0].parentId == root.id
-        configureOps[1].displayName == "Configure build (:buildB)"
-        configureOps[1].details.buildPath == ":buildB"
-        configureOps[1].parentId == configureOps[0].id
+        configureOps[0].displayName == "Configure build (:buildB)"
+        configureOps[0].details.buildPath == ":buildB"
+        configureOps[0].parentId == operations.all(/Preparing builds/)[0].id
+        configureOps[1].displayName == "Configure build"
+        configureOps[1].details.buildPath == ":"
+        configureOps[1].parentId == root.id
+
 
         // The task graph for buildB is calculated multiple times, once for buildscript dependency and again for production dependency
         def taskGraphOps = operations.all(CalculateTaskGraphBuildOperationType)

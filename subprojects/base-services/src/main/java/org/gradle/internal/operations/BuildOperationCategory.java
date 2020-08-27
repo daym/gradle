@@ -23,9 +23,9 @@ package org.gradle.internal.operations;
  */
 public enum BuildOperationCategory implements BuildOperationMetadata {
     /**
-     * Configure the root build. May also include nested {@link #CONFIGURE_BUILD} and {@link #RUN_WORK} operations.
+     * Configure the composite. May also include nested {@link #CONFIGURE_BUILD} and {@link #RUN_WORK} operations.
      */
-    CONFIGURE_ROOT_BUILD(false, false, false),
+    CONFIGURE_COMPOSITE(false, false, false),
 
     /**
      * Configure a nested build or a buildSrc build.

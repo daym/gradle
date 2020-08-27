@@ -79,7 +79,7 @@ public class BuildStatusRenderer implements OutputEventListener {
                     buildStartTimestamp = startEvent.getTimestamp();
                     buildProgressOperationId = startEvent.getProgressOperationId();
                     phaseStarted(startEvent, Phase.Initializing);
-                } else if (startEvent.getBuildOperationCategory() == BuildOperationCategory.CONFIGURE_ROOT_BUILD) {
+                } else if (startEvent.getBuildOperationCategory() == BuildOperationCategory.CONFIGURE_COMPOSITE) {
                     // Once the root build starts configuring, we are in Configuring phase
                     phaseStarted(startEvent, Phase.Configuring);
                 } else if (startEvent.getBuildOperationCategory() == BuildOperationCategory.CONFIGURE_BUILD && currentPhase == Phase.Configuring) {
