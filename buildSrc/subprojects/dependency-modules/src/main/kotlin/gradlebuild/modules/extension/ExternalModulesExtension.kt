@@ -46,7 +46,7 @@ abstract class ExternalModulesExtension {
     val bsh = "org.apache-extras.beanshell:bsh"
     val commonsCodec = "commons-codec:commons-codec"
     val commonsCompress = "org.apache.commons:commons-compress"
-    val commonsHttpclient = "org.apache.httpcomponents:httpclient"
+    val commonsHttpclient = "org.apache.httpcomponents:httpclient-win"
     val commonsIo = "commons-io:commons-io"
     val commonsLang = "commons-lang:commons-lang"
     val commonsMath = "org.apache.commons:commons-math3"
