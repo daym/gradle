@@ -45,7 +45,9 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.auth.BasicSchemeFactory;
 import org.apache.http.impl.auth.DigestSchemeFactory;
 import org.apache.http.impl.auth.KerberosSchemeFactory;
-import org.apache.http.impl.auth.SPNegoSchemeFactory;
+import org.apache.http.impl.auth.win.WindowsCredentialsProvider;
+import org.apache.http.impl.auth.win.WindowsNTLMSchemeFactory;
+import org.apache.http.impl.auth.win.WindowsNegotiateSchemeFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
@@ -68,7 +70,6 @@ import org.gradle.internal.authentication.AuthenticationInternal;
 import org.gradle.internal.jvm.Jvm;
 import org.gradle.internal.resource.UriTextResource;
 import org.gradle.internal.resource.transport.http.ntlm.NTLMCredentials;
-import org.gradle.internal.resource.transport.http.ntlm.NTLMSchemeFactory;
 import org.gradle.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +104,7 @@ public class HttpClientConfigurer {
     }
 
     public void configure(HttpClientBuilder builder) {
-        SystemDefaultCredentialsProvider credentialsProvider = new SystemDefaultCredentialsProvider();
+        CredentialsProvider credentialsProvider = new WindowsCredentialsProvider(new SystemDefaultCredentialsProvider());
         configureSslSocketConnectionFactory(builder, httpSettings.getSslContextFactory(), httpSettings.getHostnameVerifier());
         configureAuthSchemeRegistry(builder);
         configureCredentials(builder, credentialsProvider, httpSettings.getAuthenticationSettings());
@@ -126,8 +127,8 @@ public class HttpClientConfigurer {
         builder.setDefaultAuthSchemeRegistry(RegistryBuilder.<AuthSchemeProvider>create()
             .register(AuthSchemes.BASIC, new BasicSchemeFactory())
             .register(AuthSchemes.DIGEST, new DigestSchemeFactory())
-            .register(AuthSchemes.NTLM, new NTLMSchemeFactory())
-            .register(AuthSchemes.SPNEGO, new SPNegoSchemeFactory())
+            .register(AuthSchemes.NTLM, new WindowsNTLMSchemeFactory(null))
+            .register(AuthSchemes.SPNEGO, new WindowsNegotiateSchemeFactory(null))
             .register(AuthSchemes.KERBEROS, new KerberosSchemeFactory())
             .register(HttpHeaderAuthScheme.AUTH_SCHEME_NAME, new HttpHeaderSchemeFactory())
             .build()
